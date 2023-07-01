@@ -22,3 +22,7 @@ def download_file(path: str) -> Response:
 上のようなrouteを定義しておけば、
 
 http://localhost:20091/a/b/c.txt で `public/a/b/c.txt`にアクセスできる。
+
+## デフォルトのstaticの場所を変えたい
+
+`app`のプロパティ`static_folder`の値を変えておけば良い

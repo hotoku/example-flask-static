@@ -1,10 +1,12 @@
-from flask import Flask, Response, make_response, send_from_directory
 import os
 from pathlib import Path
+import sys
 
+
+from flask import Flask, Response, make_response, send_from_directory
+import click
 
 app = Flask(__name__)
-
 
 PUBLIC_DIR = Path(os.getcwd()) / "public"
 
@@ -27,7 +29,12 @@ def index():
     return send_from_directory(PUBLIC_DIR, "index.html")
 
 
-def main():
+@click.command()
+@click.option("--change-static", is_flag=True, default=False)
+def main(change_static: bool):
+    if change_static:
+        app.static_folder = "static2"
+
     app.run(host="0.0.0.0", debug=True, port=20091)
 
 
