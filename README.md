@@ -6,16 +6,19 @@
 
 ## 任意のフォルダをルートとしてアクセスしたい
 
-やりたいことは、適当な場所にあるディレクトリをルートとしてアクセスしたい。つまり、ファイルシステム上は
+```python
+from pathlib import Path
 
-```
-/hoge/fuga/public/a/b/c/xxx.txt
+PUBLIC_DIR = Path(os.getcwd()) / "public"
+
+@app.route('/<path:path>')
+def download_file(path: str) -> Response:
+    items = path.split("/")  # todo: 雑実装
+    d = "/".join(items[:-1])
+    f = items[-1]
+    return send_from_directory(PUBLIC_DIR / d, f)
 ```
 
-に置いてあるファイルに
+上のようなrouteを定義しておけば、
 
-```
-http://example.com/a/b/c/xxx.txt
-```
-
-というURLでアクセスしたい。
+http://localhost:20091/a/b/c.txt で `public/a/b/c.txt`にアクセスできる。
